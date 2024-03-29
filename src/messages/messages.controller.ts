@@ -10,7 +10,7 @@ export class MessagesController {
 
   @Post('')
   store(@Body() body: CreateMessageDTO) {
-    return body;
+    return 'this is the content  ' + body.content;
   }
 
   @Get('/:id')
