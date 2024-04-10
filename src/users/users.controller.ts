@@ -9,12 +9,17 @@ import {
   Put,
   UseInterceptors,
 } from '@nestjs/common';
-import { CreateAuthUserDTO, UpdateAuthUserDTO } from './dtos/auth.dto';
+import {
+  SignInUserDTO,
+  SignUpUserDTO,
+  UpdateAuthUserDTO,
+} from './dtos/auth.dto';
 import { UsersService } from './users.service';
 import { SerializeInterceptor } from 'src/interceptors/serialize.interceptor';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
+@UseInterceptors(SerializeInterceptor)
 export class UsersController {
   constructor(
     private userService: UsersService,
@@ -26,13 +31,17 @@ export class UsersController {
     return this.userService.findAll();
   }
 
-  @Post('')
-  register(@Body() body: CreateAuthUserDTO) {
+  @Post('/sign-up')
+  register(@Body() body: SignUpUserDTO) {
     return this.authService.signUp(body.email, body.password);
   }
 
+  @Post('/sign-in')
+  signIn(@Body() body: SignInUserDTO) {
+    return this.authService.signIn(body.email, body.password);
+  }
+
   @Get('/:id')
-  @UseInterceptors(SerializeInterceptor)
   async show(@Param('id') id: string) {
     const user = await this.userService.findOne(parseInt(id));
 

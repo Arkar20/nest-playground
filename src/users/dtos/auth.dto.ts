@@ -1,11 +1,19 @@
 import { IsEmail, IsOptional, IsString } from 'class-validator';
 
-class CreateAuthUserDTO {
+class SignUpUserDTO {
   @IsEmail()
   email: string;
 
   @IsString()
   name: string;
+
+  @IsString()
+  password: string;
+}
+
+class SignInUserDTO {
+  @IsEmail()
+  email: string;
 
   @IsString()
   password: string;
@@ -24,4 +32,4 @@ class UpdateAuthUserDTO {
   @IsOptional()
   password: string;
 }
-export { CreateAuthUserDTO, UpdateAuthUserDTO };
+export { SignUpUserDTO, UpdateAuthUserDTO, SignInUserDTO };
