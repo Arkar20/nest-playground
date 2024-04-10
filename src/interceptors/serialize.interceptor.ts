@@ -12,7 +12,10 @@ import { UserResponse } from 'src/users/dtos/response/user.dto';
 export function Serialize(dto: any) {
   return UseInterceptors(new SerializeInterceptor(dto));
 }
+
 export class SerializeInterceptor implements NestInterceptor {
+  constructor(private dto: any) {}
+
   intercept(
     context: ExecutionContext,
     next: CallHandler<any>,
