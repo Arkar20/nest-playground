@@ -48,7 +48,6 @@ export class AuthService {
   }
 
   //helper
-
   async createHash(password: string, salt?: string) {
     // hash the password
     const appliedSalt = salt ?? randomBytes(8).toString('hex');

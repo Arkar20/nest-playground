@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Session,
   UseInterceptors,
 } from '@nestjs/common';
 import {
@@ -26,30 +27,32 @@ export class UsersController {
     private authService: AuthService,
   ) {}
 
-  @Get('')
-  index() {
-    return this.userService.findAll();
-  }
-
   @Post('/sign-up')
-  register(@Body() body: SignUpUserDTO) {
-    return this.authService.signUp(body.email, body.password);
+  async register(@Body() body: SignUpUserDTO, @Session() session: any) {
+    const user = await this.authService.signUp(body.email, body.password);
+
+    session.userId = user.id;
+
+    return user;
   }
 
   @Post('/sign-in')
-  signIn(@Body() body: SignInUserDTO) {
-    return this.authService.signIn(body.email, body.password);
-  }
+  async signIn(@Body() body: SignInUserDTO, @Session() session: any) {
+    const user = await this.authService.signIn(body.email, body.password);
 
-  @Get('/:id')
-  async show(@Param('id') id: string) {
-    const user = await this.userService.findOne(parseInt(id));
-
-    if (!user) {
-      throw new NotFoundException('User not Found');
-    }
+    session.userId = user.id;
 
     return user;
+  }
+
+  @Post('/sign-out')
+  async signOut(@Session() session: any) {
+    session.userId = null;
+  }
+
+  @Get('/')
+  show(@Session() session: any) {
+    return session.userId && this.userService.findOne(session.userId);
   }
 
   @Put('/:id')
