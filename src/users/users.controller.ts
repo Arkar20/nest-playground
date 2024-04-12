@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  NotFoundException,
   Param,
   Post,
   Put,
@@ -18,9 +17,12 @@ import {
 import { UsersService } from './users.service';
 import { SerializeInterceptor } from 'src/interceptors/serialize.interceptor';
 import { AuthService } from './auth.service';
+import { CurrentUser } from './decorators/currentUser.decorator';
+import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
 
 @Controller('auth')
 @UseInterceptors(SerializeInterceptor)
+@UseInterceptors(CurrentUserInterceptor)
 export class UsersController {
   constructor(
     private userService: UsersService,
@@ -51,8 +53,8 @@ export class UsersController {
   }
 
   @Get('/')
-  show(@Session() session: any) {
-    return session.userId && this.userService.findOne(session.userId);
+  show(@CurrentUser() currentUser: string) {
+    return currentUser;
   }
 
   @Put('/:id')
