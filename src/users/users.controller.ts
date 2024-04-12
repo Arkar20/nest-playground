@@ -18,11 +18,9 @@ import { UsersService } from './users.service';
 import { SerializeInterceptor } from 'src/interceptors/serialize.interceptor';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/currentUser.decorator';
-import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
 
 @Controller('auth')
 @UseInterceptors(SerializeInterceptor)
-@UseInterceptors(CurrentUserInterceptor)
 export class UsersController {
   constructor(
     private userService: UsersService,
