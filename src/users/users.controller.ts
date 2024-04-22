@@ -8,7 +8,6 @@ import {
   Put,
   Session,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import {
   SignInUserDTO,
@@ -18,9 +17,9 @@ import {
 import { UsersService } from './users.service';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/currentUser.decorator';
-import { AuthGuard } from 'src/guards/auth.guard';
 import { UserResponse } from './dtos/response/user.dto';
-import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { Serialize } from '../interceptors/serialize.interceptor';
+import { AuthGuard } from '../guards/auth.guard';
 
 @Controller('auth')
 @Serialize(UserResponse)
