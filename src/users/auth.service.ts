@@ -48,13 +48,13 @@ export class AuthService {
   }
 
   //helper
-  async createHash(password: string, salt?: string) {
+  async createHash(password: string, salt: string = null) {
     // hash the password
     const appliedSalt = salt ?? randomBytes(8).toString('hex');
 
     const hash = (await scrypt(password, appliedSalt, 32)) as Buffer;
 
-    const result = salt + '.' + hash.toString('hex');
+    const result = appliedSalt + '.' + hash.toString('hex');
 
     return result;
   }
