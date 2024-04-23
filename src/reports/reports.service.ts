@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Param } from '@nestjs/common';
 import { CreateReportRequestDTO } from './dto/request/create-report.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Report } from './reports.entity';
@@ -13,5 +13,9 @@ export class ReportsService {
     const report = this.repo.create(body);
     report.user = user;
     return this.repo.save(report);
+  }
+
+  getOne(id: number) {
+    return this.repo.findOne({ where: { id }, relations: { user: true } });
   }
 }
