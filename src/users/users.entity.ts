@@ -1,3 +1,4 @@
+import { Report } from 'src/reports/reports.entity';
 import {
   Entity,
   AfterRemove,
@@ -5,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
   Column,
   AfterInsert,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -35,4 +37,7 @@ export class User {
   logRemove() {
     console.log('Removed User with id', this.id);
   }
+
+  @OneToMany(() => Report, (report) => report.user)
+  reports: Report[];
 }
