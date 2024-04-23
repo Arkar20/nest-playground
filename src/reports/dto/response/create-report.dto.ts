@@ -1,6 +1,5 @@
 import { Expose, Transform, Type } from 'class-transformer';
 import { UserResponse } from 'src/users/dtos/response/user.dto';
-import { User } from 'src/users/users.entity';
 
 export class CreateReportResponseDTO {
   @Expose()
